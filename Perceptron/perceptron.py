@@ -12,9 +12,9 @@ class ADAlineGD(object):                                              # The stat
         self.cost_ = []
         for i in range(self.n_iter):
             #errors = y - self.net_input(X)
-            #self.w_[1:] -= self.eta * X.T.dot(errors)                  # eta * \sig(y_i- z_i) * x_i
-            #self.w_[0]  -= self.eta * errors.sum()                     # x_0 = 1
-            #self.cost_.append((errors ** 2).sum() * 0.5)                   # append errors
+            #self.w_[1:] -= self.eta * X.T.dot(errors)                # eta * \sig(y_i- z_i) * x_i
+            #self.w_[0]  -= self.eta * errors.sum()                   # x_0 = 1
+            #self.cost_.append((errors ** 2).sum() * 0.5)             # append errors
             output = self.net_input(X)
             errors = (y - output)
             self.w_[1:] += self.eta * X.T.dot(errors)
@@ -33,14 +33,13 @@ def main ():
     print("starts importing data...")
     df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data', header=None)
     print("finished importing data")
-    y = np.where (df.iloc[:, 4].values == 'Iris-setosa', -1, 1) 
-    X = df.iloc[:, [0, 2]].values 
-    print ("shape of y: ", y.shape, " shape of X: ", X.shape) 
+    y = np.where (df.iloc[:, 4].values == 'Iris-setosa', -1, 1)
+    X = df.iloc[:, [0, 2]].values
+    print ("shape of y: ", y.shape, " shape of X: ", X.shape)
     X_std = np.copy(X)
     X_std[:, 0] = (X[:, 0] - X[:, 0].mean()) / X[:, 0].std()
     X_std[:, 1] = (X[:, 1] - X[:, 1].mean()) / X[:, 1].std()
-    ada = ADAlineGD(eta = 0.01, n_iter = 10)
-    ada.fit(X_std, y)
+    ada = ADAlineGD(eta = 0.01, n_iter = 10).fit(X_std, y)
     print("training finished")
     from plot_decision_region import plot_decision_regions
     import matplotlib.pyplot as plt
